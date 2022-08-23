@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:product_list/ProductListPage.dart';
 import 'package:provider/provider.dart';
 
@@ -52,37 +53,37 @@ class _DetailScreenState extends State<DetailScreen> {
       height: 100,
       child: Row(
         children: <Widget>[
-          Column(
+          Expanded(
+              child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               //title
-
-              Text(widget.title,style: const TextStyle(fontWeight: FontWeight.bold),),
+              Text(widget.title,style: const TextStyle(fontSize:20,fontWeight: FontWeight.bold),),
 
               //handle independent day's discount
               now.month==DateTime.march
                   ? Text("\$ ${widget.price.toString()}", style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    decoration: TextDecoration.lineThrough,),)
+                color: Colors.red,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                decoration: TextDecoration.lineThrough,),)
                   : Text("\$ ${widget.price.toString()}", style: const TextStyle(
-                    color: Color(0xff9b96d6),
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),),
+                  color: Color(0xff9b96d6),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),),
               now.month==DateTime.march
                   ? Text("\$ ${widget.price-widget.price*(26/100)}", style: const TextStyle(
-                    color: Color(0xff9b96d6),
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),)
+                  color: Color(0xff9b96d6),
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold),)
                   : Container() ,
 
               //category
               Text(widget.category, style: myStyle),
 
             ],
-          ),
+          )),
         ],
       ),
     );
@@ -96,10 +97,25 @@ class _DetailScreenState extends State<DetailScreen> {
           Text(widget.description,
             style: const TextStyle(fontSize: 16),
           ),
-          Text("\nrating: "+widget.rating.toString(),
+          RatingBar.builder(
+          initialRating: widget.rating.toDouble(),
+          //minRating: 1,
+          direction: Axis.horizontal,
+          allowHalfRating: true,
+          itemCount: 5,
+          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+          itemBuilder: (context, _) => const Icon(
+            Icons.star,
+            color: Colors.amber,
+          ),
+          onRatingUpdate: (rating) {
+            print(rating);
+          },
+        ),
+          /*Text("\nrating: "+widget.rating.toString(),
             style: const TextStyle(fontSize: 18,
                 fontWeight: FontWeight.bold)
-          ),
+          ),*/
           Text("\ncount: "+widget.count.toString(),
               style:  const TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
         ],
