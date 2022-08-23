@@ -23,7 +23,7 @@ class _ProductListPageState extends State<ProductListPage> {
   }
   @override
   Widget build(BuildContext context) {
-    context.read<getData>().getListData();
+//    context.read<getData>().getListData();
 
     return Scaffold(
       appBar:AppBar(
@@ -49,6 +49,9 @@ class _ProductListPageState extends State<ProductListPage> {
                           name: value.data[index].title,
                           category:value.data[index].category,
                           description: value.data[index].description,
+
+                        rating: value.data[index].rate,
+                        count : value.data[index].count,
                       ),
                     ),
                   );

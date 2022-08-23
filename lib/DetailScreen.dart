@@ -7,10 +7,11 @@ import 'package:provider/provider.dart';
 class DetailScreen extends StatefulWidget {
   final String image;
   final String name;
-  final num price;
+  final num price, rating;
+  final int count;
   final String description;
   final String category;
-  const DetailScreen({required this.image, required this.name, required this.price, required this.category,  required this.description});
+  const DetailScreen({required this.image, required this.name, required this.price, required this.category,  required this.description, required this.rating, required this.count});
   @override
   _DetailScreenState createState() => _DetailScreenState();
 }
@@ -21,6 +22,9 @@ class _DetailScreenState extends State<DetailScreen> {
   final TextStyle myStyle = const TextStyle(
     fontSize: 18,
   );
+  final now = DateTime.now();
+
+
   Widget _buildImage() {
     return Center(
       child: Container(
@@ -52,15 +56,28 @@ class _DetailScreenState extends State<DetailScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(widget.name, style: myStyle),
-              Text(
-                "\$ ${widget.price.toString()}",
-                style: const TextStyle(
+              //title
+              Text(widget.name, style: const TextStyle(fontSize: 16)),
+
+              //handle independent day's discount
+              now.month==DateTime.march
+                  ? Text("\$ ${widget.price.toString()}", style: const TextStyle(
+                    color: Colors.red,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.lineThrough,),)
+                  : Text("\$ ${widget.price.toString()}", style: const TextStyle(
                     color: Color(0xff9b96d6),
                     fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              //Text("Description", style: myStyle),
+                    fontWeight: FontWeight.bold),),
+              now.month==DateTime.march
+                  ? Text("\$ ${widget.price-widget.price*(26/100)}", style: const TextStyle(
+                    color: Color(0xff9b96d6),
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold),)
+                  : Container() ,
+
+              //category
               Text(widget.category, style: myStyle),
 
             ],
@@ -76,8 +93,14 @@ class _DetailScreenState extends State<DetailScreen> {
       child: Wrap(
         children:  <Widget>[
           Text(widget.description,
-            style: TextStyle(fontSize: 16),
-          )
+            style: const TextStyle(fontSize: 16),
+          ),
+          Text("\nrating: "+widget.rating.toString(),
+            style: const TextStyle(fontSize: 18,
+                fontWeight: FontWeight.bold)
+          ),
+          Text("\ncount: "+widget.count.toString(),
+              style:  const TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
         ],
       ),
     );
@@ -116,7 +139,6 @@ class _DetailScreenState extends State<DetailScreen> {
                 children: <Widget>[
                   _buildNameToDescriptionPart(),
                   _buildDiscription(),
-
                 ],
               ),
             ),
