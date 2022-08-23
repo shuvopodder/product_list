@@ -13,7 +13,6 @@ class ProductListPage extends StatefulWidget {
 }
 
 class _ProductListPageState extends State<ProductListPage> {
-
   @override
   void initState() {
     // TODO: implement initState
@@ -21,13 +20,12 @@ class _ProductListPageState extends State<ProductListPage> {
     fetchData.getListData();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-//    context.read<getData>().getListData();
-
     return Scaffold(
-      appBar:AppBar(
-        title: Text("List View Page"),
+      appBar: AppBar(
+        title: const Text("List View Page"),
       ),
       body: RefreshIndicator(
         onRefresh: _onRefresh,
@@ -36,45 +34,41 @@ class _ProductListPageState extends State<ProductListPage> {
             builder: (context, value, child) => value.data.isEmpty
                 ? const CircularProgressIndicator()
                 : ListView.builder(
-
-              itemCount: value.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                    onTap: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (ctx) => DetailScreen(
-                          image: value.data[index].image,
-                          price: value.data[index].price,
-                          name: value.data[index].title,
-                          category:value.data[index].category,
-                          description: value.data[index].description,
-
-                        rating: value.data[index].rate,
-                        count : value.data[index].count,
-                      ),
-                    ),
-                  );
-                },
-                 child: SingleProduct(
-                   image:value.data[index].image,
-                   title:value.data[index].title,
-                   price:value.data[index].price,
-                 )
-                );
-              },
-            ),
-          ),
+                    itemCount: value.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (ctx) => DetailScreen(
+                                  image: value.data[index].image,
+                                  title: value.data[index].title,
+                                  price: value.data[index].price,
+                                  category: value.data[index].category,
+                                  description: value.data[index].description,
+                                  rating: value.data[index].rate,
+                                  count: value.data[index].count,
+                                ),
+                              ),
+                            );
+                          },
+                          child: SingleProduct(
+                            image: value.data[index].image,
+                            title: value.data[index].title,
+                            price: value.data[index].price,
+                          ));
+                    },
+                  ),
           ),
         ),
+      ),
     );
   }
-  Future<void> _onRefresh() async{
+
+  Future<void> _onRefresh() async {
     await Future.delayed(const Duration(seconds: 2));
     await context.read<getData>().getListData();
 
-    setState(() {
-
-    });
+    setState(() {});
   }
 }

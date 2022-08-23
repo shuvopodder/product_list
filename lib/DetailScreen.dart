@@ -6,12 +6,12 @@ import 'package:provider/provider.dart';
 
 class DetailScreen extends StatefulWidget {
   final String image;
-  final String name;
+  final String title;
   final num price, rating;
   final int count;
   final String description;
   final String category;
-  const DetailScreen({required this.image, required this.name, required this.price, required this.category,  required this.description, required this.rating, required this.count});
+  const DetailScreen({required this.image, required this.title, required this.price, required this.category,  required this.description, required this.rating, required this.count});
   @override
   _DetailScreenState createState() => _DetailScreenState();
 }
@@ -31,7 +31,7 @@ class _DetailScreenState extends State<DetailScreen> {
         width: 380,
         child: Card(
           child: Container(
-            padding: EdgeInsets.all(13),
+            padding: const EdgeInsets.all(13),
             child: Container(
               height: 260,
               decoration: BoxDecoration(
@@ -57,7 +57,8 @@ class _DetailScreenState extends State<DetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               //title
-              Text(widget.name, style: const TextStyle(fontSize: 16)),
+
+              Text(widget.title,style: const TextStyle(fontWeight: FontWeight.bold),),
 
               //handle independent day's discount
               now.month==DateTime.march
