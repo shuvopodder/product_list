@@ -1,9 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:product_list/ProductListPage.dart';
-import 'package:provider/provider.dart';
-
 
 class DetailScreen extends StatefulWidget {
   final String image;
@@ -12,19 +9,23 @@ class DetailScreen extends StatefulWidget {
   final int count;
   final String description;
   final String category;
-  const DetailScreen({required this.image, required this.title, required this.price, required this.category,  required this.description, required this.rating, required this.count});
+  const DetailScreen(
+      {required this.image,
+      required this.title,
+      required this.price,
+      required this.category,
+      required this.description,
+      required this.rating,
+      required this.count});
   @override
   _DetailScreenState createState() => _DetailScreenState();
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-
-
   final TextStyle myStyle = const TextStyle(
     fontSize: 18,
   );
   final now = DateTime.now();
-
 
   Widget _buildImage() {
     return Center(
@@ -59,29 +60,42 @@ class _DetailScreenState extends State<DetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               //title
-              Text(widget.title,style: const TextStyle(fontSize:20,fontWeight: FontWeight.bold),),
+              Text(
+                widget.title,
+                style:
+                    const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
 
               //handle independent day's discount
-              now.month==DateTime.march
-                  ? Text("\$ ${widget.price.toString()}", style: const TextStyle(
-                color: Colors.red,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.lineThrough,),)
-                  : Text("\$ ${widget.price.toString()}", style: const TextStyle(
-                  color: Color(0xff9b96d6),
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),),
-              now.month==DateTime.march
-                  ? Text("\$ ${widget.price-widget.price*(26/100)}", style: const TextStyle(
-                  color: Color(0xff9b96d6),
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold),)
-                  : Container() ,
+              now.month == DateTime.march
+                  ? Text(
+                      "\$ ${widget.price.toString()}",
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.lineThrough,
+                      ),
+                    )
+                  : Text(
+                      "\$ ${widget.price.toString()}",
+                      style: const TextStyle(
+                          color: Color(0xff9b96d6),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    ),
+              now.month == DateTime.march
+                  ? Text(
+                      "\$ ${widget.price - widget.price * (26 / 100)}",
+                      style: const TextStyle(
+                          color: Color(0xff9b96d6),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold),
+                    )
+                  : Container(),
 
               //category
               Text(widget.category, style: myStyle),
-
             ],
           )),
         ],
@@ -93,31 +107,31 @@ class _DetailScreenState extends State<DetailScreen> {
     return Container(
       height: 170,
       child: Wrap(
-        children:  <Widget>[
-          Text(widget.description,
+        children: <Widget>[
+          Text(
+            widget.description,
             style: const TextStyle(fontSize: 16),
           ),
           RatingBar.builder(
-          initialRating: widget.rating.toDouble(),
-          //minRating: 1,
-          direction: Axis.horizontal,
-          allowHalfRating: true,
-          itemCount: 5,
-          itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
-          itemBuilder: (context, _) => const Icon(
-            Icons.star,
-            color: Colors.amber,
+            initialRating: widget.rating.toDouble(),
+            //minRating: 1,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+            itemBuilder: (context, _) => const Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            onRatingUpdate: (rating) {
+              print(rating);
+            },
           ),
-          onRatingUpdate: (rating) {
-            print(rating);
-          },
-        ),
-          /*Text("\nrating: "+widget.rating.toString(),
-            style: const TextStyle(fontSize: 18,
-                fontWeight: FontWeight.bold)
-          ),*/
-          Text("\ncount: "+widget.count.toString(),
-              style:  const TextStyle(fontSize: 18,fontWeight: FontWeight.bold)),
+
+          const SizedBox(height: 50,),
+          Text("   Reviews: " + widget.count.toString(),
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         ],
       ),
     );

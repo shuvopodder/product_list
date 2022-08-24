@@ -67,7 +67,7 @@ class _ProductListPageState extends State<ProductListPage> {
 
   Future<void> _onRefresh() async {
     await Future.delayed(const Duration(seconds: 2));
-    await context.read<getData>().getListData();
+    //await context.read<getData>().getListData();
 
     setState(() {});
   }
